@@ -62,7 +62,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer.save(profile = self.request.user.profile)
 
 
-class BlogViewSet(viewsets.ModelViewSet):
+class BlogPostViewSet(viewsets.ModelViewSet):
 
     serializer_class = BlogSerializer
     permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
