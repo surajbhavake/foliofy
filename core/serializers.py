@@ -34,7 +34,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 #serializer is used basically for translation as python understand database models as objects  
 #so serializer convert the objects into JSON so the frontend can understand and same apply otherway around
-class BlogSerializer(serializers.ModelSerializer):
+class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPost
 

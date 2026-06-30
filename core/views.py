@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from .models import Profile,Skill,Project,BlogPost
 from django.utils.text import slugify
 from .serializers import (
-    ProfileSerializer,SkillSerializer,ProjectSerializer,BlogSerializer
+    ProfileSerializer,SkillSerializer,ProjectSerializer,BlogPostSerializer
 )
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -64,7 +64,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 class BlogPostViewSet(viewsets.ModelViewSet):
 
-    serializer_class = BlogSerializer
+    serializer_class = BlogPostSerializer
     permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
 
     def get_queryset(self):
@@ -73,7 +73,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
 
-        title = serializer.validated_set.get('title')
+        title = serializer.validated_data.get('title')
         base_slug = slugify(title)
         slug = base_slug
         counter = 1
@@ -81,7 +81,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         while BlogPost.objects.filter(profile__user = self.request.user,slug = slug).exists():
             slug = f"{base_slug}-{counter}"
             counter +=1
-            serializer.save(profile = self.request.user.profile, slug = slug)
+        serializer.save(profile = self.request.user.profile, slug = slug)
             #in we use profile=self.request.user.profile to find the specific user database
             #  and we use slug=slug the save the give slug after converting into this database column as we have not
             #  give user access to input slug
