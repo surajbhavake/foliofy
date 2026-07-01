@@ -1,5 +1,5 @@
 import { createContext,useContext,useState,useEffect, Children } from "react";
-import axios from "axios";
+import api from '../api/axios';
 
 const AuthContext = createContext() //this is just a global storage that we have created 
 
@@ -34,12 +34,35 @@ export const AuthProvider = ({children}) =>{
 
 
     const login = async (username,password) => {
-        const {data} = api.post('/token/',{username,password})
-        localStorage.setItem('access_token',data.access),
-        localStorage.setItem('refresh_token',data.refresh)
+         console.log("1. login() started");
 
-        const profileRes = await api.get('/profiles/');
-        setUser(profileRes.data[0] || null )
+  try {
+    console.log("2. About to call API");
+
+    const { data } = await api.post("/token/", {
+      username,
+      password,
+    });
+
+    console.log("3. API Success", data);
+
+    localStorage.setItem("access_token", data.access);
+    localStorage.setItem("refresh_token", data.refresh);
+
+    console.log("4. Tokens stored");
+
+    const profileRes = await api.get("/profiles/");
+
+    console.log("5. Profile", profileRes.data);
+
+    setUser(profileRes.data[0] || null);
+
+  } catch (error) {
+    console.log("LOGIN ERROR");
+    console.log(error);
+    console.log(error.response);
+    throw error;
+  }
 
     };
 
