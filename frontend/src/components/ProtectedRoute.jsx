@@ -11,3 +11,10 @@ const ProtectedRoute = ({children})=>{
 }
 
 export default ProtectedRoute;
+
+
+
+// A Protected Route is a wrapper component that checks whether a user is authenticated before
+//  rendering a page. If the authentication state is still being determined, it can display a
+//  loading state. If the user is not authenticated, it redirects them to the login page. 
+// If the user is authenticated, it renders the protected component passed as its children.
