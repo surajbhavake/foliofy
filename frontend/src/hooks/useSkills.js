@@ -24,7 +24,7 @@ export const useUpdateSkill = () =>{
     return useMutation({
         mutationFn : (updatedSkills) => {
             const {id,...payload} = updatedSkills;
-            return api.patch(`/skills/${id}/`,updatedSkills)
+            return api.patch(`/skills/${id}/`,payload)
         },
         onSuccess : ()=>queryClient.invalidateQueries({queryKey:['skills']})
     })

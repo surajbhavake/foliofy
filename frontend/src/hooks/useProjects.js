@@ -34,7 +34,7 @@ export const useUpdateProject = () =>{
     return useMutation({
         mutationFn :(formData) =>{
             const {id,...payload} = formData;
-            return api.patch(`/project/${id}/`,formData,{
+            return api.patch(`/project/${id}/`,payload,{
                 headers : {
                     'Content-Type' : 'multipart/form-data'
                 },
