@@ -38,3 +38,21 @@ export const useCreateProfile = () => {
         },
     })
 }
+
+export const useUploadResume = () =>{
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn : ({id,formData})=>{
+            return api.patch(`/profiles/${id}/`,formData,{
+                headers : {
+                    'Content-Type':'multipart/form-data'
+                }
+            })
+
+        },
+        onSuccess:()=>
+            queryClient.invalidateQueries({
+                queryKey:['profile']
+        })
+    })
+}

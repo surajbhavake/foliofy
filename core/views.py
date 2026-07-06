@@ -14,6 +14,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         
         if request.method in permissions.SAFE_METHODS:
             return True
+        if isinstance(obj,Profile):
+            return obj.user == request.user
         
         return obj.profile.user == request.user
         #here we are creating new blueprint which  modifying the existing funtion
