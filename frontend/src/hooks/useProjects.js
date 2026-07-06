@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../api/axios';
 
-export const useProject = () =>{
+export const useProjects = () =>{
     return useQuery({
         queryKey : ['projects'],
         queryFn : async()=>{

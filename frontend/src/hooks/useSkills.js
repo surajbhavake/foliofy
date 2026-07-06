@@ -1,7 +1,7 @@
 import { useQuery,useMutation,useQueryClient } from "@tanstack/react-query";
 import api from "../api/axios";
 
-export const useSkill = () =>{
+export const useSkills = () =>{
     return useQuery({
         queryKey : ['skills'],
         queryFn : async() =>{
