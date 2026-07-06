@@ -32,9 +32,9 @@ export const useCreateProject = () =>{
 export const useUpdateProject = () =>{
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn :(formData) =>{
-            const {id,...payload} = formData;
-            return api.patch(`/project/${id}/`,payload,{
+        mutationFn :({id,formData}) =>{
+            // const {id,...payload} = formData;
+            return api.patch(`/projects/${id}/`,formData,{
                 headers : {
                     'Content-Type' : 'multipart/form-data'
                 },
