@@ -85,7 +85,7 @@ function BlogPage() {
                 </button>
               </div>
               {preview ? (
-                <div className="border p-4 rounded min-h-[200px] prose">
+                <div className="border p-4 rounded min-h-50 //min-h-[200px]  prose">
                   <ReactMarkdown>{watch('content')}</ReactMarkdown>
                 </div>
               ) : (
