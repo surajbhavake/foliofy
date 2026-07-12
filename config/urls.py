@@ -29,7 +29,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/',TokenObtainPairView.as_view(),name ='token_obtain_pair'),#here we get refresh token and access token
     path('api/token/refresh/',TokenRefreshView.as_view(),name = 'token_refresh'), #here we give previous refresh token to obtain access token if it was expired
-    path('api/',include('core.urls'))
+    path('api/',include('core.urls')),
+    path('api/public/',include('core.urls_public')),
 ]
 
 

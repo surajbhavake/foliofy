@@ -32,7 +32,7 @@ def public_portfolio(request):
 
 
 @api_view(['GET'])
-def public_blog_post(request):
+def public_blog_list(request):
     profile = request.tenant_profile
 
     if not profile :
