@@ -18,3 +18,5 @@ const Navbar = ({profile,theme})=>{
         </nav>
     )
 }
+
+export default Navbar;
