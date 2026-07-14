@@ -8,7 +8,7 @@ const themes  = {
     minimal : minimalTheme,
 }
 
-const ThemeWrapper = ({themeName,children}) =>{
+export const ThemeWrapper = ({themeName,children}) =>{
     const theme = themes[themeName] || themes['default'];
 
     return (

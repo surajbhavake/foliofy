@@ -25,7 +25,13 @@ SECRET_KEY = 'django-insecure-xqp*pnj)f=hdcva9r89+sqmkg)o3^ot9wlh(#238)10j5hbk0f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "john.blackfade.com",
+    "amanda.blackfade.com",
+    "blackfade.com",
+]
 AUTH_USER_MODEL = 'core.User'
 
 

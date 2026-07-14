@@ -11,12 +11,15 @@ class TenantMiddleware:
 
     def __call__(self, request):
         host = request.get_host().split(':')[0]  # strip port
+        print("HOST:", host)
         parts = host.split('.')
+        print("PARTS:", parts)
 
         # In development, localhost might just be 'localhost:8000'
         # We check if the first part is a valid subdomain (not www, api, etc.)
         if len(parts) >= 2 and parts[0] not in ('www', 'foliofy', 'api', 'localhost'):
             username = parts[0]
+            print("USERNAME:", username)
             try:
                 profile = Profile.objects.get(user__username=username)
                 request.tenant_profile = profile
