@@ -64,7 +64,7 @@ class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True,min_length=8)
     password2 = serializers.CharField(write_only= True,min_length=8,label = 'Confirm password')
-    subdomin = serializers.CharField(max_length= 50)
+    subdomain = serializers.CharField(max_length= 50)
     full_name = serializers.CharField(max_length = 200)
 
 
@@ -130,7 +130,7 @@ class RegisterSerializer(serializers.Serializer):
             password=password,
         )
 
-        Profile.objects.create(
+        Profile.objects.get_or_create(
             user= user,
             full_name = full_name,
             headline = '',

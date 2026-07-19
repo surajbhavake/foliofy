@@ -68,3 +68,22 @@ class BlogPost(models.Model):
     def __str__(self):
         return self.title
     
+
+
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save,sender=User)
+def create_user_profile(sender,instance,created,**kwargs):
+    
+    if created:
+        Profile.objects.get_or_create(
+            user = instance,
+            defaults={
+                'full_name' : instance.get_full_name() or instance.username,
+                'headline' : '',
+                'bio' : '',
+                'theme' : 'default',
+            }
+        )

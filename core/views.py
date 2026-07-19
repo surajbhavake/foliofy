@@ -101,7 +101,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = []
 
     def create(self,request,*args,**kwargs):
-        serializer = self.get_serializer_class(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception = True)
         user = serializer.save()
 
@@ -114,7 +114,7 @@ class RegisterView(generics.CreateAPIView):
                 'id':user.id,
                 'username' : user.username,
                 'email' : user.email,
-                'full_name' : user.profle.full_name,
+                'full_name' : user.profile.full_name,
                 'subdomin' : user.username,
             }
         },status=status.HTTP_201_CREATED
