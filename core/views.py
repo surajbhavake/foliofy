@@ -1,11 +1,13 @@
 from django.shortcuts import render
 
-from rest_framework import viewsets,permissions,status
+from rest_framework import viewsets,permissions,status,generics
 from rest_framework.response import Response
 from .models import Profile,Skill,Project,BlogPost
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.text import slugify
+
 from .serializers import (
-    ProfileSerializer,SkillSerializer,ProjectSerializer,BlogPostSerializer
+    ProfileSerializer,SkillSerializer,ProjectSerializer,BlogPostSerializer,RegisterSerializer
 )
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -88,3 +90,32 @@ class BlogPostViewSet(viewsets.ModelViewSet):
             #  and we use slug=slug the save the give slug after converting into this database column as we have not
             #  give user access to input slug
             # # Create your views here.
+
+
+
+class RegisterView(generics.CreateAPIView):
+
+
+    serializer_class = RegisterSerializer
+    authentication_classes = []
+    permission_classes = []
+
+    def create(self,request,*args,**kwargs):
+        serializer = self.get_serializer_class(data=request.data)
+        serializer.is_valid(raise_exception = True)
+        user = serializer.save()
+
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            'access' :str(refresh.access_token),
+            'refresh': str(refresh),
+            'user' :{
+                'id':user.id,
+                'username' : user.username,
+                'email' : user.email,
+                'full_name' : user.profle.full_name,
+                'subdomin' : user.username,
+            }
+        },status=status.HTTP_201_CREATED
+        )
