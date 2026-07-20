@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate,Link } from 'react-router-dom'; 
 
 const loginSchema = z.object({
   username: z.string().min(1,'Username is required'),
@@ -79,6 +79,11 @@ const LoginPage = () => {
           {isSubmitting ? 'Logging in...' : 'Login'}
 
         </button>
+
+        <p className="text-center text-sm text-gray-500 mt-4">
+             Don't have an account?{' '}
+             <Link to="/register" className="text-indigo-600 hover:underline">Sign up</Link>
+        </p>
       </form>
     </div>
   )

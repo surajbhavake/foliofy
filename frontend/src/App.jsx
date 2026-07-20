@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage';
 import ProjectsPage from './pages/ProjectsPage';
 import SkillsPage from './pages/SkillsPage';
 import BlogPage from './pages/BlogPage';
+import RegisterPage from './pages/RegisterPage';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path='/register' element = {<RegisterPage />} />
             <Route
               path="/dashboard"
               element={

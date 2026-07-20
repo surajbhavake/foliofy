@@ -73,7 +73,15 @@ export const AuthProvider = ({children}) =>{
     };
 
 
+    const register = async (userData) =>{
+        const { data } = await api.post('/register/', userData);
+        localStorage.setItem('access_token', data.access);
+        localStorage.setItem('refresh_token', data.refresh);
+        // Use the user data from the response directly
+        setUser(data.user);
+    }
+
     return(
-        <AuthContext.Provider value={{user,login,logout,loading}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{user,login,register,logout,loading}}>{children}</AuthContext.Provider>
     )
 }
