@@ -293,6 +293,7 @@ portfolio-renderer/.env:
 VITE_API_URL=/api/public
 ```
 📚 API Documentation
+```
 Authentication Endpoints
 Method	Endpoint	Description	Auth Required
 POST	/api/token/	Obtain JWT access & refresh tokens	No
@@ -315,7 +316,7 @@ GET	/api/public/blog/	List published blog posts for current tenant
 GET	/api/public/blog/{slug}/	Get single published blog post by slug
 Request/Response Examples
 <details> <summary><b>POST /api/register/</b></summary>
-
+```
 Request:
 ```
 
@@ -627,13 +628,13 @@ This project is licensed under the MIT License — see the LICENSE file for deta
 
 📞 Contact
 
-Project Maintainer: [Your Name]
+Project Maintainer: [Suraj Bhavake]
 
-    GitHub: @yourusername
+    GitHub: @surajbhavake
 
-    Email: your.email@example.com
+    Email:surajbhavake2@gmail.com
 
-    Portfolio: yourusername.foliofy.com
+    Portfolio: suraj.blackfade.site
 
 Found a bug? Open an issue
 
