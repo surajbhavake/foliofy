@@ -98,6 +98,7 @@ Built as a full-stack SaaS product, Foliofy demonstrates production-grade patter
 ---
 
 ## 🏗️ Architecture
+```
 ┌──────────────────────────────────────────────────────────────┐
 │ INTERNET │
 │ │
@@ -135,7 +136,7 @@ Built as a full-stack SaaS product, Foliofy demonstrates production-grade patter
 │ │ (Database) │ │
 │ └───────────────┘ │
 └─────────────────────────────────────────┘
-
+```
 
 ### Data Flow
 
@@ -345,7 +346,7 @@ Response (201):
 </details>
 📁 Project Structure
 
-
+```
 foliofy/
 ├── config/                    # Django project configuration
 │   ├── settings.py            # Main settings (dev/prod via env vars)
@@ -410,7 +411,7 @@ foliofy/
 ├── manage.py                  # Django management script
 ├── .gitignore
 └── README.md                  # You are here!
-
+```
 🚢 Deployment
 Production Architecture
 
