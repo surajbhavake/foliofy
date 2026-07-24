@@ -196,13 +196,14 @@ Built as a full-stack SaaS product, Foliofy demonstrates production-grade patter
 
 #### 1. Clone the Repository
 
-```bash
+```
 git clone https://github.com/yourusername/foliofy.git
 cd foliofy
+```
 
 
 2. Backend Setup (Django)
-bash
+```
 
 # Create and activate virtual environment
 python -m venv venv
@@ -219,11 +220,12 @@ python manage.py migrate
 python manage.py createsuperuser
 
 # Start development server
-python manage.py runserver
+python manage.py runserve
+```
 
 The API is now running at http://localhost:8000.
 3. Admin Dashboard Setup (React)
-bash
+```
 
 cd frontend
 
@@ -232,10 +234,11 @@ npm install
 
 # Start development server
 npm run dev
+```
 
 The admin dashboard is at http://localhost:5173.
 4. Portfolio Renderer Setup (React)
-bash
+```
 
 cd portfolio-renderer
 
@@ -244,7 +247,7 @@ npm install
 
 # Start development server
 npm run dev
-
+```
 The portfolio renderer is at http://localhost:5174.
 5. Configure Local Subdomains (Optional)
 
@@ -259,7 +262,7 @@ Then access http://testuser.foliofy.com:5174 to see the portfolio for user testu
 Environment Variables
 
 Create a .env file in the project root for local development (or export these variables):
-bash
+```
 
 # Django Settings
 DJANGO_SECRET_KEY=your-secret-key-here
@@ -275,19 +278,19 @@ DB_PORT=5432
 
 # CORS
 CORS_ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5174
-
+```
 For the React apps, create .env files:
 
 frontend/.env:
-text
 
+```
 VITE_API_URL=http://localhost:8000/api
-
+```
 portfolio-renderer/.env:
-text
 
+```
 VITE_API_URL=/api/public
-
+```
 📚 API Documentation
 Authentication Endpoints
 Method	Endpoint	Description	Auth Required
@@ -313,7 +316,7 @@ Request/Response Examples
 <details> <summary><b>POST /api/register/</b></summary>
 
 Request:
-json
+```
 
 {
   "username": "amanda_j",
@@ -323,9 +326,9 @@ json
   "subdomain": "amanda",
   "full_name": "Amanda Johnson"
 }
-
+```
 Response (201):
-json
+```
 
 {
   "access": "eyJhbGciOiJIUzI1NiIs...",
@@ -338,10 +341,10 @@ json
     "subdomain": "amanda"
   }
 }
-
+```
 </details>
 📁 Project Structure
-text
+
 
 foliofy/
 ├── config/                    # Django project configuration
@@ -438,7 +441,7 @@ CNAME	www	foliofy.com	3600
 A	*	your-server-ip	3600
 🧪 Testing
 Backend Tests
-bash
+```
 
 # Run Django tests
 python manage.py test
@@ -446,9 +449,9 @@ python manage.py test
 # Run with coverage
 coverage run manage.py test
 coverage report
-
+```
 Frontend Tests
-bash
+```
 
 # Admin dashboard tests
 cd frontend
@@ -457,7 +460,7 @@ npm test
 # Portfolio renderer tests
 cd portfolio-renderer
 npm test
-
+```
 API Testing
 
 Import the provided Postman collection for manual API testing.
