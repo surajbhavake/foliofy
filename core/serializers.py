@@ -130,13 +130,12 @@ class RegisterSerializer(serializers.Serializer):
             password=password,
         )
 
-        Profile.objects.get_or_create(
-            user= user,
-            full_name = full_name,
-            headline = '',
-            bio = '',
-            theme = 'default',
-        )
+        profile = user.profile
+        profile.full_name = full_name
+        profile.headline = ""
+        profile.bio = ""
+        profile.theme = "default"
+        profile.save()
 
         return user
         
