@@ -3,7 +3,7 @@ name: Deploy Foliofy
 on:
   push:
     branches:
-      - main
+      - master
 
 concurrency:
   group: production-deploy
