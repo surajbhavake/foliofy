@@ -25,3 +25,20 @@ dist-ssr
 
 
 .env.production
+
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.env
+
+# Node
+node_modules/
+
+# Build
+dist/
+build/
