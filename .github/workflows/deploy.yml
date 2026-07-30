@@ -28,4 +28,4 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 \
           ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-          "cd /home/ubuntu/apps/foliofy && ./deploy.sh"
+          "cd /home/ubuntu/apps/foliofy && bash deploy.sh"
