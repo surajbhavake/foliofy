@@ -68,6 +68,13 @@ const IconWebsite = (props) => (
   </svg>
 )
 
+const IconArrowRight = (props) => (
+  <svg {...iconProps} className={props.className} aria-hidden="true">
+    <path d="M5 12h14" />
+    <path d="M13 6l6 6-6 6" />
+  </svg>
+)
+
 const socialConfig = {
   Github: IconGithub,
   LinkedIn: IconLinkedin,
@@ -84,7 +91,18 @@ const HeroSection = ({ profile, theme }) => {
   ].filter(Boolean)
 
   return (
-    <section className="mx-auto max-w-3xl px-4 py-20 text-center sm:py-28">
+    <section className="relative mx-auto max-w-3xl overflow-hidden px-4 py-24 text-center sm:py-32">
+      {/* ambient background — CSS only, no 3D dependency */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-4 h-72 w-72 -translate-x-1/2 rounded-full bg-amber-300/10 blur-[90px] animate-[float_9s_ease-in-out_infinite]" />
+        <svg className="absolute inset-0 h-full w-full opacity-[0.025] mix-blend-overlay" aria-hidden="true">
+          <filter id="heroGrain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#heroGrain)" />
+        </svg>
+      </div>
+
       {profile.avatar && (
         <div className="relative mx-auto mb-7 h-32 w-32 animate-[fadeIn_0.6s_ease-out]">
           <div
@@ -101,12 +119,41 @@ const HeroSection = ({ profile, theme }) => {
 
       <h1 className={`animate-[fadeIn_0.6s_ease-out_0.05s_both] ${theme.heading}`}>{profile.full_name}</h1>
 
+      {profile.title && (
+        <p className="mt-2 animate-[fadeIn_0.6s_ease-out_0.08s_both] text-sm font-medium uppercase tracking-wide text-amber-500/90 dark:text-amber-400/90">
+          {profile.title}
+        </p>
+      )}
+
       {profile.headline && (
         <p className={`mt-4 animate-[fadeIn_0.6s_ease-out_0.1s_both] ${theme.subheading}`}>{profile.headline}</p>
       )}
 
+      {profile.bio && (
+        <p className="mx-auto mt-4 max-w-xl animate-[fadeIn_0.6s_ease-out_0.12s_both] text-sm leading-relaxed text-current/60 sm:text-base">
+          {profile.bio}
+        </p>
+      )}
+
+      <div className="mt-8 flex animate-[fadeIn_0.6s_ease-out_0.15s_both] flex-wrap items-center justify-center gap-3">
+        <a
+          href="#projects"
+          className="group inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-neutral-900 shadow-lg shadow-amber-400/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-amber-400/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50"
+        >
+          View Projects
+          <IconArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </a>
+        <a
+          href={profile.resume || '#contact'}
+          {...(profile.resume ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          className="inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-black/[0.02] px-6 py-2.5 text-sm font-semibold text-current/80 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-400/50 hover:bg-amber-400/10 hover:text-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50 dark:border-white/[0.08] dark:bg-white/[0.03]"
+        >
+          {profile.resume ? 'Resume' : 'Contact Me'}
+        </a>
+      </div>
+
       {socials.length > 0 && (
-        <div className="mt-8 flex animate-[fadeIn_0.6s_ease-out_0.15s_both] flex-wrap items-center justify-center gap-2.5">
+        <div className="mt-8 flex animate-[fadeIn_0.6s_ease-out_0.18s_both] flex-wrap items-center justify-center gap-2.5">
           {socials.map(({ href, label }) => (
             <SocialLink key={label} href={href} label={label} />
           ))}
@@ -117,6 +164,10 @@ const HeroSection = ({ profile, theme }) => {
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(6px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translate(-50%, 0); }
+          50% { transform: translate(-50%, 14px); }
         }
         @media (prefers-reduced-motion: reduce) {
           [style*="fadeIn"], section * { animation: none !important; }
@@ -142,5 +193,3 @@ const SocialLink = ({ href, label }) => {
 }
 
 export default HeroSection
-
-
