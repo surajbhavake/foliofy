@@ -27,7 +27,6 @@
 // // export default HeroSection;
 
 
-
 const iconProps = {
   viewBox: '0 0 24 24',
   fill: 'none',
@@ -68,6 +67,13 @@ const IconWebsite = (props) => (
   </svg>
 )
 
+const IconArrowDown = (props) => (
+  <svg {...iconProps} className={props.className} aria-hidden="true">
+    <path d="M12 5v14" />
+    <path d="M6 13l6 6 6-6" />
+  </svg>
+)
+
 const socialConfig = {
   Github: IconGithub,
   LinkedIn: IconLinkedin,
@@ -84,29 +90,54 @@ const HeroSection = ({ profile, theme }) => {
   ].filter(Boolean)
 
   return (
-    <section className="mx-auto max-w-3xl px-4 py-20 text-center sm:py-28">
+    <section className="relative mx-auto max-w-3xl px-4 py-24 text-center sm:py-32">
       {profile.avatar && (
-        <div className="relative mx-auto mb-7 h-32 w-32 animate-[fadeIn_0.6s_ease-out]">
+        <div
+          className="group relative mx-auto mb-8 h-32 w-32 animate-[fadeIn_0.6s_ease-out]"
+          style={{ perspective: '600px' }}
+        >
           <div
             aria-hidden="true"
-            className="absolute -inset-1.5 rounded-full bg-gradient-to-br from-amber-300/40 via-transparent to-transparent blur-md"
+            className="absolute -inset-2 rounded-full bg-gradient-to-br from-amber-300/40 via-transparent to-transparent blur-lg transition-opacity duration-300 group-hover:opacity-80"
           />
           <img
             src={profile.avatar}
             alt={profile.full_name}
-            className="relative h-32 w-32 rounded-full border border-black/[0.06] object-cover shadow-xl shadow-black/10 ring-4 ring-white/60 dark:border-white/[0.08] dark:ring-white/[0.06]"
+            className="relative h-32 w-32 rounded-full border border-black/[0.06] object-cover shadow-xl shadow-black/10 ring-4 ring-white/60 transition-transform duration-300 ease-out will-change-transform group-hover:[transform:rotateX(6deg)_rotateY(-6deg)_scale(1.03)] dark:border-white/[0.08] dark:ring-white/[0.06]"
           />
         </div>
       )}
 
-      <h1 className={`animate-[fadeIn_0.6s_ease-out_0.05s_both] ${theme.heading}`}>{profile.full_name}</h1>
+      <p className="mb-3 animate-[fadeIn_0.6s_ease-out_0.02s_both] font-mono text-xs uppercase tracking-[0.25em] text-current/40">
+        Hi, I&rsquo;m
+      </p>
+
+      <h1
+        className={`animate-[fadeIn_0.6s_ease-out_0.05s_both] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl ${theme.heading}`}
+      >
+        {profile.full_name}
+      </h1>
 
       {profile.headline && (
-        <p className={`mt-4 animate-[fadeIn_0.6s_ease-out_0.1s_both] ${theme.subheading}`}>{profile.headline}</p>
+        <p
+          className={`mx-auto mt-5 max-w-xl animate-[fadeIn_0.6s_ease-out_0.1s_both] text-base leading-relaxed sm:text-lg ${theme.subheading}`}
+        >
+          {profile.headline}
+        </p>
       )}
 
+      <div className="mt-9 flex animate-[fadeIn_0.6s_ease-out_0.13s_both] flex-wrap items-center justify-center gap-3">
+        <a
+          href="#projects"
+          className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-5 py-2.5 text-sm font-semibold text-black transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50"
+        >
+          View work
+          <IconArrowDown className="h-3.5 w-3.5" />
+        </a>
+      </div>
+
       {socials.length > 0 && (
-        <div className="mt-8 flex animate-[fadeIn_0.6s_ease-out_0.15s_both] flex-wrap items-center justify-center gap-2.5">
+        <div className="mt-6 flex animate-[fadeIn_0.6s_ease-out_0.16s_both] flex-wrap items-center justify-center gap-2.5">
           {socials.map(({ href, label }) => (
             <SocialLink key={label} href={href} label={label} />
           ))}
@@ -119,7 +150,7 @@ const HeroSection = ({ profile, theme }) => {
           to { opacity: 1; transform: translateY(0); }
         }
         @media (prefers-reduced-motion: reduce) {
-          [style*="fadeIn"], section * { animation: none !important; }
+          [style*="fadeIn"], section * { animation: none !important; transition: none !important; }
         }
       `}</style>
     </section>
@@ -142,5 +173,3 @@ const SocialLink = ({ href, label }) => {
 }
 
 export default HeroSection
-
-
