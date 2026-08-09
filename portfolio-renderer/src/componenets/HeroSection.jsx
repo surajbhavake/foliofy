@@ -28,9 +28,6 @@
 
 
 
-import { useEffect, useRef, useState } from 'react'
-import { HashLink } from 'react-router-hash-link'
-
 const iconProps = {
   viewBox: '0 0 24 24',
   fill: 'none',
@@ -71,21 +68,6 @@ const IconWebsite = (props) => (
   </svg>
 )
 
-const IconDownload = (props) => (
-  <svg {...iconProps} className={props.className} aria-hidden="true">
-    <path d="M12 4v11" />
-    <path d="M8 11.5 12 15.5 16 11.5" />
-    <path d="M5 18h14" />
-  </svg>
-)
-
-const IconArrowRight = (props) => (
-  <svg {...iconProps} className={props.className} aria-hidden="true">
-    <path d="M5 12h14" />
-    <path d="M13 6l6 6-6 6" />
-  </svg>
-)
-
 const socialConfig = {
   Github: IconGithub,
   LinkedIn: IconLinkedin,
@@ -93,32 +75,7 @@ const socialConfig = {
   Website: IconWebsite,
 }
 
-function useReducedMotion() {
-  const [reduced, setReduced] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReduced(mq.matches)
-    const handler = (e) => setReduced(e.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [])
-  return reduced
-}
-
-function getInitials(name = '') {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((n) => n[0]?.toUpperCase())
-    .join('')
-}
-
 const HeroSection = ({ profile, theme }) => {
-  const panelRef = useRef(null)
-  const frameRef = useRef(null)
-  const reducedMotion = useReducedMotion()
-
   const socials = [
     profile.github && { href: profile.github, label: 'Github' },
     profile.linkedin && { href: profile.linkedin, label: 'LinkedIn' },
@@ -126,131 +83,35 @@ const HeroSection = ({ profile, theme }) => {
     profile.website && { href: profile.website, label: 'Website' },
   ].filter(Boolean)
 
-  useEffect(() => {
-    if (reducedMotion) return
-    const panel = panelRef.current
-    if (!panel) return
-
-    let targetX = 0
-    let targetY = 0
-    let currentX = 0
-    let currentY = 0
-
-    const handleMove = (e) => {
-      const rect = panel.getBoundingClientRect()
-      const relX = (e.clientX - rect.left - rect.width / 2) / rect.width
-      const relY = (e.clientY - rect.top - rect.height / 2) / rect.height
-      targetX = Math.max(-1, Math.min(1, relX))
-      targetY = Math.max(-1, Math.min(1, relY))
-    }
-
-    const tick = () => {
-      currentX += (targetX - currentX) * 0.08
-      currentY += (targetY - currentY) * 0.08
-      panel.style.setProperty('--tilt-x', `${(-currentY * 8).toFixed(2)}deg`)
-      panel.style.setProperty('--tilt-y', `${(currentX * 8).toFixed(2)}deg`)
-      panel.style.setProperty('--shine-x', `${(currentX * 50 + 50).toFixed(1)}%`)
-      panel.style.setProperty('--shine-y', `${(currentY * 50 + 50).toFixed(1)}%`)
-      frameRef.current = requestAnimationFrame(tick)
-    }
-
-    window.addEventListener('mousemove', handleMove, { passive: true })
-    frameRef.current = requestAnimationFrame(tick)
-
-    return () => {
-      window.removeEventListener('mousemove', handleMove)
-      if (frameRef.current) cancelAnimationFrame(frameRef.current)
-    }
-  }, [reducedMotion])
-
   return (
-    <section className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-12 px-4 py-20 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
-      {/* Left: content */}
-      <div className="text-center lg:text-left">
-        <p className="mb-4 animate-[fadeIn_0.6s_ease-out] font-mono text-xs uppercase tracking-[0.25em] text-current/40">
-          Hi, I'm
-        </p>
-
-        <h1 className={`animate-[fadeIn_0.6s_ease-out_0.05s_both] ${theme.heading}`}>{profile.full_name}</h1>
-
-        {profile.headline && (
-          <p
-            className={`mx-auto mt-4 max-w-xl animate-[fadeIn_0.6s_ease-out_0.1s_both] lg:mx-0 ${theme.subheading}`}
-          >
-            {profile.headline}
-          </p>
-        )}
-
-        <div className="mt-8 flex animate-[fadeIn_0.6s_ease-out_0.15s_both] flex-wrap items-center justify-center gap-3 lg:justify-start">
-          <HashLink
-            smooth
-            to="/#projects"
-            className="inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-5 py-2.5 text-sm font-semibold text-black transition-transform duration-200 hover:-translate-y-0.5 hover:bg-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50"
-          >
-            View Work
-            <IconArrowRight className="h-3.5 w-3.5" />
-          </HashLink>
-
-          {profile.resume && (
-            <a
-              href={profile.resume}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-current/15 px-5 py-2.5 text-sm font-medium text-current/80 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-400/50 hover:text-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50"
-            >
-              <IconDownload className="h-3.5 w-3.5" />
-              Resume
-            </a>
-          )}
-        </div>
-
-        {socials.length > 0 && (
-          <div className="mt-8 flex animate-[fadeIn_0.6s_ease-out_0.2s_both] flex-wrap items-center justify-center gap-2.5 lg:justify-start">
-            {socials.map(({ href, label }) => (
-              <SocialLink key={label} href={href} label={label} />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Right: spatial panel — CSS-only, cursor-tracked tilt */}
-      <div className="relative mx-auto w-full max-w-xs animate-[fadeIn_0.7s_ease-out_0.1s_both] [perspective:1200px] lg:max-w-sm">
-        <div
-          ref={panelRef}
-          style={{ transform: 'rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))' }}
-          className="relative aspect-square rounded-[2rem] border border-current/10 bg-gradient-to-br from-current/[0.04] to-transparent shadow-2xl shadow-black/10 transition-transform duration-150 ease-out will-change-transform"
-        >
+    <section className="mx-auto max-w-3xl px-4 py-20 text-center sm:py-28">
+      {profile.avatar && (
+        <div className="relative mx-auto mb-7 h-32 w-32 animate-[fadeIn_0.6s_ease-out]">
           <div
             aria-hidden="true"
-            className="absolute inset-0 rounded-[2rem] opacity-[0.07]"
-            style={{
-              backgroundImage:
-                'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)',
-              backgroundSize: '28px 28px',
-            }}
+            className="absolute -inset-1.5 rounded-full bg-gradient-to-br from-amber-300/40 via-transparent to-transparent blur-md"
           />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 rounded-[2rem] opacity-40"
-            style={{
-              background:
-                'radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 50%), rgba(251,191,36,0.18), transparent 55%)',
-            }}
+          <img
+            src={profile.avatar}
+            alt={profile.full_name}
+            className="relative h-32 w-32 rounded-full border border-black/[0.06] object-cover shadow-xl shadow-black/10 ring-4 ring-white/60 dark:border-white/[0.08] dark:ring-white/[0.06]"
           />
-          <div className="absolute inset-6 flex items-center justify-center overflow-hidden rounded-2xl border border-current/[0.06] bg-current/[0.02] backdrop-blur-sm">
-            {profile.avatar ? (
-              <img
-                src={profile.avatar}
-                alt={profile.full_name}
-                className="h-full w-full object-cover"
-                loading="eager"
-              />
-            ) : (
-              <span className="text-5xl font-bold text-current/20">{getInitials(profile.full_name)}</span>
-            )}
-          </div>
         </div>
-      </div>
+      )}
+
+      <h1 className={`animate-[fadeIn_0.6s_ease-out_0.05s_both] ${theme.heading}`}>{profile.full_name}</h1>
+
+      {profile.headline && (
+        <p className={`mt-4 animate-[fadeIn_0.6s_ease-out_0.1s_both] ${theme.subheading}`}>{profile.headline}</p>
+      )}
+
+      {socials.length > 0 && (
+        <div className="mt-8 flex animate-[fadeIn_0.6s_ease-out_0.15s_both] flex-wrap items-center justify-center gap-2.5">
+          {socials.map(({ href, label }) => (
+            <SocialLink key={label} href={href} label={label} />
+          ))}
+        </div>
+      )}
 
       <style>{`
         @keyframes fadeIn {
@@ -281,3 +142,5 @@ const SocialLink = ({ href, label }) => {
 }
 
 export default HeroSection
+
+
