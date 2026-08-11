@@ -36,3 +36,4 @@ class PublicExperienceSerializer(serializers.ModelSerializer):
         fields = [
             'company','role','description','start_date','end_date','is_current'
         ]
+

@@ -2,12 +2,12 @@ from django.shortcuts import render
 
 from rest_framework import viewsets,permissions,status,generics
 from rest_framework.response import Response
-from .models import Profile,Skill,Project,BlogPost
+from .models import Profile,Skill,Project,BlogPost,Experience,ContactMessage
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.text import slugify
 
 from .serializers import (
-    ProfileSerializer,SkillSerializer,ProjectSerializer,BlogPostSerializer,RegisterSerializer
+    ProfileSerializer,SkillSerializer,ProjectSerializer,BlogPostSerializer,RegisterSerializer,ExperienceSerializer,ContactMessageSerializer
 )
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -91,7 +91,28 @@ class BlogPostViewSet(viewsets.ModelViewSet):
             #  give user access to input slug
             # # Create your views here.
 
+class ExperienceViewSet(viewsets.ModelViewSet):
+    serializer_class = ExperienceSerializer
+    permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
 
+    def get_queryset(self):
+        return Experience.objects.filter(profile__user = self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(profile=self.request.user.profile)
+
+class ContactMessageViewSet(viewsets.ModelViewSet):
+    """
+    Allows the portfolio owner to view and manage messages.
+    Only list, retrieve, update (mark as read), and destroy.
+    No create — messages are created via the public API.
+    """
+    serializer_class = ContactMessageSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+    http_method_names = ['get', 'patch', 'delete', 'head', 'options']
+
+    def get_queryset(self):
+        return ContactMessage.objects.filter(profile__user=self.request.user)
 
 class RegisterView(generics.CreateAPIView):
 
