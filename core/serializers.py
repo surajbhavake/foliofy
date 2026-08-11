@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile,Skill,BlogPost,Project,Profile
+from .models import Profile,Skill,BlogPost,Project,Profile,Experience,ContactMessage
 from django.contrib.auth import get_user_model
 
 
@@ -13,6 +13,10 @@ class ProfileSerializer(serializers.ModelSerializer):
             'id','full_name','headline','bio','avatar'
             ,'github','resume','linkedin','twitter','website'
             ,'theme','created_at','updated_at'
+
+            ,'contact_email','show_contact_form','location','available_for',
+            
+
         ]
         read_only_fields = ['id','created_at','updated_at']
 
@@ -52,7 +56,30 @@ class BlogPostSerializer(serializers.ModelSerializer):
             'id','profile','slug','created_at','updated_at'
         ]
 
+class ExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Experience
+        fields = [
+            'id','company','role','description','start_date',
+            'end_date','is_current','order','proifile'
+        ]
 
+        read_only_fields = [
+            'id','profile'
+        ]
+
+class ContactMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMessage
+        fields = [
+            'id','sender_name','sender_email','subject'
+            ,'message','is_read','created_at','profile'
+
+        ]
+
+        read_only_fields = [
+            'id','profile','created_at'
+        ]
 
 
 #This section is for registration 
