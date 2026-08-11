@@ -9,8 +9,9 @@ from .serializers_public import (
     PublicSkillSerializer,
     PublicBlogPostSerializer,
     PublicExperienceSerializer,
-    ContactMessageSerializer
+    
 )
+from .serializers import ContactMessageSerializer
 
 
 @api_view(['GET'])
