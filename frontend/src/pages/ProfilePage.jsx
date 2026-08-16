@@ -193,6 +193,10 @@ const profileSchema = z.object({
   twitter: z.string().url().optional().or(z.literal('')),
   website: z.string().url().optional().or(z.literal('')),
   theme: z.string().min(1),
+  contact_email: z.string().email().optional().or(z.literal('')),
+  show_contact_form: z.boolean().optional(),
+  location: z.string().optional(),
+  available_for: z.string().optional(),
 })
 
 /* ----------------------------------------------------------------- *
@@ -315,6 +319,53 @@ function ThemeSelector({ register }) {
     </div>
   )
 }
+<div className="border-t pt-4 mt-4">
+  <h3 className="text-lg font-semibold mb-3">Contact Settings</h3>
+  
+  <div className="mb-4">
+    <label className="block text-sm font-medium mb-1">Contact Email</label>
+    <input
+      {...register('contact_email')}
+      type="email"
+      className="w-full border p-2 rounded"
+      placeholder="you@example.com"
+    />
+    <p className="text-xs text-gray-500 mt-1">
+      Messages from your portfolio will be sent to this email.
+      Leave blank to use your account email.
+    </p>
+  </div>
+
+  <div className="flex items-center gap-2 mb-4">
+    <input
+      type="checkbox"
+      {...register('show_contact_form')}
+      id="show_contact_form"
+      className="h-4 w-4"
+    />
+    <label htmlFor="show_contact_form" className="text-sm">
+      Show contact form on my portfolio
+    </label>
+  </div>
+
+  <div className="mb-4">
+    <label className="block text-sm font-medium mb-1">Location</label>
+    <input
+      {...register('location')}
+      className="w-full border p-2 rounded"
+      placeholder="San Francisco, CA"
+    />
+  </div>
+
+  <div className="mb-4">
+    <label className="block text-sm font-medium mb-1">Available For</label>
+    <input
+      {...register('available_for')}
+      className="w-full border p-2 rounded"
+      placeholder="Freelance projects, Full-time roles"
+    />
+  </div>
+</div>
 
 function AvatarUploader({ avatarUrl, fullName, onUpload, uploading }) {
   const initials =

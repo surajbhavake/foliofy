@@ -333,6 +333,23 @@ const DashboardHome = () => {
               meta="listed"
             />
             <StatCard
+              to="/dashboard/experiences"
+              label="Experiences"
+              icon={<IconBriefcase />}
+              value={experiences?.length}
+              loading={experiencesLoading}
+              meta="listed"
+            />
+            <StatCard
+              to="/dashboard/messages"
+              label="Messages"
+              icon={<IconMail />}
+              value={messages?.length}
+              loading={messagesLoading}
+              meta="received"
+            />
+            
+            <StatCard
               to="/dashboard/blogpost"
               label="Blog posts"
               icon={<IconFeather />}

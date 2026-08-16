@@ -10,7 +10,8 @@ import ProjectsPage from './pages/ProjectsPage';
 import SkillsPage from './pages/SkillsPage';
 import BlogPage from './pages/BlogPage';
 import RegisterPage from './pages/RegisterPage';
-
+import ExperiencesPage from './pages/ExperiencesPage';
+import MessagesPage from './pages/MessagesPage';
 const queryClient = new QueryClient();
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
               <Route path="projects" element={<ProjectsPage />} />
               <Route path="skills" element={<SkillsPage />} />
               <Route path="blog" element={<BlogPage />} />
+              <Route path="experiences" element={<ExperiencesPage />} />
+              <Route path="messages" element={<MessagesPage />} />
+
             </Route>
             <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>
