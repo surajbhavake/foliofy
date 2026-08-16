@@ -10,37 +10,66 @@
 // export default AboutSection;
 
 
+import { useEffect, useRef, useState } from 'react';
+
 const AboutSection = ({ profile, theme }) => {
-  if (!profile.bio) return null
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    if (!profile.bio) return;
+
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [profile.bio]);
+
+  if (!profile.bio) return null;
+
+  const revealBase =
+    'transition-all duration-500 ease-out motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-y-0';
+  const revealState = isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2';
 
   return (
-    <section id="about" className="mx-auto max-w-3xl px-4 py-16 sm:py-20">
-      <div className="mb-6 flex items-center gap-3 animate-[fadeIn_0.6s_ease-out]">
+    <section
+      id="about"
+      ref={sectionRef}
+      className={`mx-auto max-w-3xl px-4 py-16 sm:py-20 ${theme.text}`}
+    >
+      <div className={`mb-6 flex items-center gap-3 ${revealBase} ${revealState}`}>
         <span className="h-px w-8 bg-current/20" aria-hidden="true" />
-        <span className="font-mono text-xs uppercase tracking-[0.2em] text-current/40">About</span>
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-current/40">
+          About
+        </span>
       </div>
 
-      <h2 className={`animate-[fadeIn_0.6s_ease-out_0.05s_both] text-2xl font-semibold sm:text-3xl ${theme.text}`}>
+      <h2
+        className={`text-2xl font-semibold sm:text-3xl ${revealBase} ${revealState}`}
+        style={{ transitionDelay: isVisible ? '60ms' : '0ms' }}
+      >
         A little more about me
       </h2>
 
       <p
-        className={`mt-5 max-w-2xl animate-[fadeIn_0.6s_ease-out_0.1s_both] whitespace-pre-line text-base leading-relaxed text-current/75 ${theme.text}`}
+        className={`mt-5 max-w-2xl whitespace-pre-line text-base leading-relaxed text-current/75 ${revealBase} ${revealState}`}
+        style={{ transitionDelay: isVisible ? '120ms' : '0ms' }}
       >
         {profile.bio}
       </p>
-
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          [style*="fadeIn"], section * { animation: none !important; }
-        }
-      `}</style>
     </section>
-  )
-}
+  );
+};
 
-export default AboutSection
+export default AboutSection;
