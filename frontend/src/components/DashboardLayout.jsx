@@ -1,6 +1,6 @@
 import { Outlet, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FiHome, FiUser, FiFolder, FiAward, FiBookOpen, FiLogOut } from 'react-icons/fi';
+import { FiHome, FiUser, FiFolder, FiAward, FiBookOpen, FiLogOut,FiMail } from 'react-icons/fi';
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();

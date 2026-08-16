@@ -19,7 +19,7 @@ export const useCreateExperience = () =>{
     })
 }
 
-export const useUpdateExperienc = () =>{
+export const useUpdateExperience = () =>{
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn : ({id,...data})=> api.patch(`/experiences/${id}/`,data),
