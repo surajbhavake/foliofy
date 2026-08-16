@@ -31,7 +31,7 @@ def public_portfolio(request):
 
         'skills' : PublicSkillSerializer(profile.skills.all(), many=True).data,
         'experiences': PublicExperienceSerializer(
-            profile.experience.all().order_by('order'),many=True
+            profile.experiences.all().order_by('order'),many=True
         ).data
     }
 
