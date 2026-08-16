@@ -64,19 +64,28 @@ const IconDownload = (props) => (
   </svg>
 )
 
-const navLinkClass =
-  'relative text-sm font-medium text-current/70 transition-colors duration-200 hover:text-current after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-200 hover:after:w-full'
+const navLinkClass = (isActive) =>
+  `relative text-sm font-medium transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-px after:bg-current after:transition-all after:duration-200 ${
+    isActive
+      ? 'text-current after:w-full'
+      : 'text-current/70 hover:text-current after:w-0 hover:after:w-full'
+  }`
 
-function NavLinks({ profile, onNavigate }) {
+function NavLinks({ profile, onNavigate, isBlogActive }) {
   return (
     <>
-      <HashLink smooth to="/#projects" onClick={onNavigate} className={navLinkClass}>
+      <HashLink smooth to="/#projects" onClick={onNavigate} className={navLinkClass(false)}>
         Projects
       </HashLink>
-      <HashLink smooth to="/#skills" onClick={onNavigate} className={navLinkClass}>
+      <HashLink smooth to="/#skills" onClick={onNavigate} className={navLinkClass(false)}>
         Skills
       </HashLink>
-      <Link to="/blog" onClick={onNavigate} className={navLinkClass}>
+      <Link
+        to="/blog"
+        onClick={onNavigate}
+        aria-current={isBlogActive ? 'page' : undefined}
+        className={navLinkClass(isBlogActive)}
+      >
         Blog
       </Link>
       {profile.resume && (
@@ -99,6 +108,7 @@ const Navbar = ({ profile, theme }) => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const location = useLocation()
+  const isBlogActive = location.pathname.startsWith('/blog')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -111,6 +121,24 @@ const Navbar = ({ profile, theme }) => {
     setMobileOpen(false)
   }, [location.pathname, location.hash])
 
+  // Close on Escape, and lock background scroll while the mobile menu is open
+  useEffect(() => {
+    if (!mobileOpen) return
+
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setMobileOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [mobileOpen])
+
   return (
     <nav
       className={`sticky top-0 z-40 ${theme.card} ${theme.cardBorder} transition-shadow duration-300 ${
@@ -118,13 +146,16 @@ const Navbar = ({ profile, theme }) => {
       }`}
     >
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-        <Link to="/" className="text-xl font-bold tracking-tight">
+        <Link
+          to="/"
+          className="text-xl font-bold tracking-tight transition-opacity duration-200 hover:opacity-80"
+        >
           {profile.full_name}
         </Link>
 
         {/* Desktop links */}
         <div className="hidden items-center gap-7 sm:flex">
-          <NavLinks profile={profile} />
+          <NavLinks profile={profile} isBlogActive={isBlogActive} />
         </div>
 
         {/* Mobile toggle */}
@@ -139,14 +170,24 @@ const Navbar = ({ profile, theme }) => {
         </button>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className={`${theme.cardBorder} border-t px-4 py-4 sm:hidden`}>
-          <div className="flex flex-col items-start gap-4">
-            <NavLinks profile={profile} onNavigate={() => setMobileOpen(false)} />
+      {/* Mobile menu — animated open/close via CSS grid-template-rows, no JS height calc */}
+      <div
+        className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out sm:hidden ${
+          mobileOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}
+      >
+        <div className="min-h-0">
+          <div className={`${theme.cardBorder} border-t px-4 py-4`}>
+            <div className="flex flex-col items-start gap-4">
+              <NavLinks
+                profile={profile}
+                onNavigate={() => setMobileOpen(false)}
+                isBlogActive={isBlogActive}
+              />
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   )
 }
