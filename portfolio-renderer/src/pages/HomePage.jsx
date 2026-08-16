@@ -35,7 +35,7 @@ const HomePage = () =>{
     );
   }
 
-  const {profile,projects,skills,experience} = data
+  const {profile,projects,skills,experiences} = data
   const theme = useTheme(profile.theme)
 
 
