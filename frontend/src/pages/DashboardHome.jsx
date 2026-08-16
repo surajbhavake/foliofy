@@ -44,6 +44,8 @@ import { useProfile } from '../hooks/useProfile';
 import { useProjects } from '../hooks/useProjects';
 import { useSkills } from '../hooks/useSkills';
 import { useBlogPosts } from '../hooks/useBlogPosts';
+import { useExperiences } from '../hooks/useExperiences';
+import { useMessages } from '../hooks/useMessages';
 
 /* ----------------------------------------------------------------- *
  * Icons — minimal, single-path, inherit color via currentColor
@@ -70,6 +72,18 @@ const IconSparkle = (props) => (
     <path d="M18.5 15.5c.25 1.25.9 1.9 2.15 2.15-1.25.25-1.9.9-2.15 2.15-.25-1.25-.9-1.9-2.15-2.15 1.25-.25 1.9-.9 2.15-2.15Z" />
   </svg>
 );
+const IconBriefcase = (props) => (
+  <svg {...iconProps} className={props.className} aria-hidden="true">
+    <path d="M3.5 7.5a1 1 0 0 1 1-1h15a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-9Z" />
+  </svg>
+);
+
+const IconMail = (props) => (
+  <svg {...iconProps} className={props.className} aria-hidden="true">
+    <path d="M3.5 6.5a1 1 0 0 1 1-1h15a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-9Z" />
+    <path d="M3.5 6.5 12 13l8.5-6.5" />
+  </svg>
+);  
 
 const IconFeather = (props) => (
   <svg {...iconProps} className={props.className} aria-hidden="true">
@@ -244,6 +258,8 @@ const DashboardHome = () => {
   const { data: skills, isLoading: skillsLoading } = useSkills();
   const { data: projects, isLoading: projectsLoading } = useProjects();
   const { data: posts, isLoading: postsLoading } = useBlogPosts();
+  const { data: experiences, isLoading: experiencesLoading } = useExperiences();
+  const { data: messages, isLoading: messagesLoading } = useMessages();
 
   const greeting = getGreeting();
   const firstName = profile?.full_name?.split(' ')[0] || 'there';
