@@ -1,1 +1,118 @@
 @import "tailwindcss";
+
+/* ExperienceSection — design tokens (scoped locally; move to global CSS
+   if you want other sections to share this palette) */
+.exp-section {
+  --exp-primary: #4f46e5;
+  --exp-primary-light: #818cf8;
+  --exp-surface: #ffffff;
+  --exp-border: #e5e7eb;
+  --exp-radius: 12px;
+}
+
+.exp-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--exp-primary);
+}
+
+.exp-heading {
+  background: linear-gradient(135deg, #111827 0%, #4b5563 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Timeline spine — soft gradient instead of flat gray */
+.exp-line {
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--exp-primary-light) 0%,
+    var(--exp-border) 85%,
+    transparent 100%
+  );
+}
+
+/* Dot */
+.exp-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--exp-primary);
+  box-shadow: 0 0 0 4px var(--exp-surface);
+  transition: transform 0.2s ease;
+}
+
+.exp-item:hover .exp-dot {
+  transform: scale(1.15);
+}
+
+.exp-dot-current {
+  background: var(--exp-primary-light);
+  box-shadow: 0 0 0 4px var(--exp-surface), 0 0 0 8px rgba(129, 140, 248, 0.25);
+  animation: exp-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes exp-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px var(--exp-surface), 0 0 0 8px rgba(129, 140, 248, 0.25); }
+  50% { box-shadow: 0 0 0 4px var(--exp-surface), 0 0 0 11px rgba(129, 140, 248, 0.12); }
+}
+
+/* Card */
+.exp-card {
+  background: var(--exp-surface);
+  border: 1px solid var(--exp-border);
+  border-radius: var(--exp-radius);
+  padding: 1.25rem;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.exp-item:hover .exp-card {
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
+  border-color: var(--exp-primary-light);
+  transform: translateY(-2px);
+}
+
+.exp-company {
+  color: var(--exp-primary);
+}
+
+.exp-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--exp-primary);
+  white-space: nowrap;
+}
+
+/* Reveal animation */
+.exp-item {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.exp-item-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-item,
+  .exp-dot,
+  .exp-card,
+  .exp-dot-current {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .exp-item {
+    opacity: 1;
+    transform: none;
+  }
+}
