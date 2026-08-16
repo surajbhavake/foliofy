@@ -2,24 +2,20 @@ import defaultTheme from '../themes/default'
 import darkTheme from '../themes/dark'
 import minimalTheme from '../themes/minimal'
 
-const themes  = {
-    default : defaultTheme,
-    dark : darkTheme,
-    minimal : minimalTheme,
+const themes = {
+  default: defaultTheme,
+  dark: darkTheme,
+  minimal: minimalTheme,
 }
 
-export const ThemeWrapper = ({themeName,children}) =>{
-    const theme = themes[themeName] || themes['default'];
+const getTheme = (themeName) => themes[themeName] || themes['default']
 
-    return (
+export const ThemeWrapper = ({ themeName, children }) => {
+  const theme = getTheme(themeName)
 
-        <div className={`min-h-screen ${theme.background} ${theme.text}`}>{children}</div>
-    )
-
+  return <div className={`min-h-screen ${theme.background} ${theme.text}`}>{children}</div>
 }
 
-export  const useTheme  = (themeName)=>{
-    return themes[themeName] || themes['default']
-};
+export const useTheme = (themeName) => getTheme(themeName)
 
-export default ThemeWrapper;
+export default ThemeWrapper
